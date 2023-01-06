@@ -5,7 +5,6 @@ import pytorch_lightning as pl
 import numpy as np
 import argparse
 from scipy.stats import linregress
-from datetime import datetime
 
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -38,7 +37,7 @@ parser.add_argument('--num_mols', type=int, default=10000)
 parser.add_argument('--autodock_executable', type=str, default='autodock_gpu_128wi')
 parser.add_argument('--protein_file', type=str, default='1err/1err.maps.fld')
 
-parser.add_argument('--n_dataset', type=int, default= 1)
+parser.add_argument('--n_dataset', type=int, default= 5)
 parser.add_argument('--ligands_folder', type=str, default ='ligands')
 parser.add_argument('--autodock_results_folder',type=str, default ='outs')
 args = parser.parse_args()
@@ -87,8 +86,8 @@ for num in range(args.n_dataset):
     else :
         x, y = generate_training_mols(args.num_mols, props[args.prop])
     data_folder = args.prop if args.prop!='binding_affinity' else args.protein_file.split('/')[0]
-    if not os.path.exists(f'data/{data_folder}_{date_time}'):
-        os.mkdir(f'data/{data_folder}_{date_time}')
-    torch.save(x,f'data/{data_folder}_{date_time}/{args.num_mols}_x_{num+1}.pt')
-    torch.save(y,f'data/{data_folder}_{date_time}/{args.num_mols}_y_{num+1}.pt')
+    if not os.path.exists(f'data/{data_folder}'):
+        os.mkdir(f'data/{data_folder}')
+    torch.save(x,f'data/{data_folder}/{args.num_mols}_x_{num+1}.pt')
+    torch.save(y,f'data/{data_folder}/{args.num_mols}_y_{num+1}.pt')
     
