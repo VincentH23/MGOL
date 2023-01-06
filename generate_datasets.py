@@ -58,7 +58,6 @@ for num in range(args.n_dataset):
     print(f'generate dataset {num+1}')
     ######## Training ##########
 
-    date_time = str(datetime.now())
     
     if args.prop =='binding_affinity':
         X = []
